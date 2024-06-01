@@ -1,4 +1,5 @@
-const express = require('express');
+const express = require('express'); // framework
+const morgan = require('morgan'); // 3rd-party logging system
 
 //express app
 const app = express();
@@ -9,12 +10,28 @@ app.set('view engine', 'ejs');
 // listen for requests
 const server = app.listen(3000);
 
+app.use(morgan('dev'));
+
+//middleware will hang if no 'next' function.
+// app.use((req, res, next) => {
+//     console.log('new request made:');
+//     console.log('host: ', req.hostname);
+//     console.log('path: ', req.path);
+//     console.log('method: ', req.method);
+//     next();
+// })
+
+// app.use((req, res, next) => {
+//     console.log('In the next middleware');
+//     next();
+// })
+
 app.get('/', (req, res) => {
     //res.send('<p>home page');
     const blogs = [
-        {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit amet consectetur'},
-        {title: 'Mario finds stars', snippet: 'Lorem ipsum dolor sit amet consectetur'},
-        {title: 'How to defeat bowser', snippet: 'Lorem ipsum dolor sit amet consectetur'},
+        {title: 'Java job finder', snippet: 'Not easy in 5-eye countries'},
+        {title: '.Net job finder', snippet: 'Very easy in 5-eye countries'},
+        {title: 'Cloud computing job finder', snippet: 'Very easy in 5-eye countries'},
       ];
     res.render('index', { title: 'Home', blogs});
 })
@@ -42,6 +59,7 @@ app.get('/blogs/create', (req, res) => {
 // })
 
 //404 page, NB: this must be last for unmatched urls above
+// middleware is used here.
 app.use((req, res) => {
     //res.status(404).sendFile('./views/404.html', { root: __dirname });
     res.status(404).render('404', { title: '404' });
