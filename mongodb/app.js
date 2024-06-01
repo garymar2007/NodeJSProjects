@@ -8,8 +8,14 @@ const app = express();
 //connect to mongodb.  NB you could use some software to access you db, such as Mongodb compass
 //Using the mongodb APIs, such as Mongoose
 //Mongoose is an Object Document Mapping (ODM) library
-const dbURI = 'mongodb+srv://garymar2007:20070616@Yi@cluster0.eukoequ.mongodb.net/node-tuts?retryWrites=true&w=majority';
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true});
+const username = 'garymar2007';
+const password = encodeURIComponent('20070616@Yi'); //special character in password - have to use encodeURIComponet function
+const dbURI = `mongodb+srv://${username}:${password}@cluster0.eukoequ.mongodb.net/node-tuts?retryWrites=true&w=majority`;
+mongoose.connect(dbURI).then((result) => {
+    console.log('Connected to db...');
+}).catch((err) => {
+    console.log('Unable to connect to db...');
+}); //, { useNewUrlParser: true, useUnifiedTopology: true});
 
 // register view engine
 app.set('view engine', 'ejs');
