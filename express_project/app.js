@@ -15,3 +15,18 @@ app.get('/about', (req, res) => {
     //res.send('<p>about page');
     res.sendFile('./views/about.html', { root: __dirname });
 })
+
+app.get('/about-us', (req, res) => {
+    //res.send('<p>about page');
+    res.redirect('/about');
+})
+
+// app.get('/*', (req, res) => {
+//     //res.send('<p>about page');
+//     res.sendFile('./views/404.html', { root: __dirname });
+// })
+
+//404 page, NB: this must be last for unmatched urls above
+app.use((req, res) => {
+    res.status(404).sendFile('./views/404.html', { root: __dirname });
+})
