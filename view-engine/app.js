@@ -4,10 +4,6 @@ const morgan = require('morgan'); // 3rd-party logging system
 //express app
 const app = express();
 
-//connect to mongodb.  NB you could use some software to access you db, such as Mongodb compass or Mongoose
-//Mongoose is an Object Document Mapping (ODM) library
-const dbURI = "mongodb+srv://garymar2007:20070616@Yi@cluster0.eukoequ.mongodb.net/test?retryWrites=true&w=majority";
-
 // register view engine
 app.set('view engine', 'ejs');
 

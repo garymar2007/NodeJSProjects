@@ -2,3 +2,4 @@ project/node_modules/*
 express_project/node_modules/*
 node_modules/*
 view-engine/node_modules/*
+mongodb/node_modules/*

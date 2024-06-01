@@ -8,8 +8,8 @@ const app = express();
 //connect to mongodb.  NB you could use some software to access you db, such as Mongodb compass
 //Using the mongodb APIs, such as Mongoose
 //Mongoose is an Object Document Mapping (ODM) library
-const dbURI = 'mongodb+srv://garymar2007:20070616@Yi@cluster0.eukoequ.mongodb.net/note-tuts?retryWrites=true&w=majority';
-mongoose.connect(dbURI);
+const dbURI = 'mongodb+srv://garymar2007:20070616@Yi@cluster0.eukoequ.mongodb.net/node-tuts?retryWrites=true&w=majority';
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 // register view engine
 app.set('view engine', 'ejs');
