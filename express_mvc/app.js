@@ -73,8 +73,8 @@ app.get('/about', (req, res) => {
 //     res.sendFile('./views/404.html', { root: __dirname });
 // })
 
-//blog routes
-app.use(blogRoutes);
+//blog routes with scope
+app.use('/blogs', blogRoutes);
 
 //404 page, NB: this must be last for unmatched urls above
 // middleware is used here.
