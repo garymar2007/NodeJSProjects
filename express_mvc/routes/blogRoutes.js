@@ -14,6 +14,7 @@ router.get('/:id', blogController.blog_details)
 // create a blog
 router.post('/', blogController.blog_create_post);
 
+// delete a blog
 router.delete('/:id', blogController.blog_delete);
 
 module.exports = router;
