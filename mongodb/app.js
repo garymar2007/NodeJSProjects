@@ -1,6 +1,7 @@
 const express = require('express'); // framework
 const morgan = require('morgan'); // 3rd-party logging system
 const mongoose = require('mongoose'); // ODM library used to access mongodb
+const Blog = require('./models/blog');
 
 //express app
 const app = express();
@@ -25,7 +26,9 @@ const server = app.listen(3000);
 
 //middleware & static files
 app.use(express.static('public'));
+app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
+
 
 //middleware will hang if no 'next' function.
 // app.use((req, res, next) => {
@@ -42,13 +45,14 @@ app.use(morgan('dev'));
 // })
 
 app.get('/', (req, res) => {
+    res.redirect('/blogs');
     //res.send('<p>home page');
-    const blogs = [
-        {title: 'Java job finder', snippet: 'Not easy in 5-eye countries'},
-        {title: '.Net job finder', snippet: 'Very easy in 5-eye countries'},
-        {title: 'Cloud computing job finder', snippet: 'Very easy in 5-eye countries'},
-      ];
-    res.render('index', { title: 'Home', blogs});
+    // const blogs = [
+    //     {title: 'Java job finder', snippet: 'Not easy in 5-eye countries'},
+    //     {title: '.Net job finder', snippet: 'Very easy in 5-eye countries'},
+    //     {title: 'Cloud computing job finder', snippet: 'Very easy in 5-eye countries'},
+    //   ];
+    // res.render('index', { title: 'Home', blogs});
 })
 
 app.get('/about', (req, res) => {
@@ -57,11 +61,49 @@ app.get('/about', (req, res) => {
     res.render('about', { title: 'About' });
 })
 
+// get all blogs
+app.get('/blogs', (reg, res) => {
+    Blog.find().sort({ createdAt: -1 }) //sorting based on createdAt in descending order
+        .then((result) => {
+            res.render('index', {title: 'All Blogs', blogs: result})
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+// get a create page
 app.get('/blogs/create', (req, res) => {
     //res.send('<p>about page');
     //res.sendFile('./views/about.html', { root: __dirname });
     res.render('create', { title: 'Create a new blog' });
 })
+
+//get a single blog
+app.get('/blogs/:id', (req, res) => {
+    const id = req.params.id;
+    Blog.findById(id)
+        .then((result) => {
+            res.render('details', { blog: result, title: 'Blog Details'});
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
+// create a blog
+app.post('/blogs', (req, res) => {
+    const blog = new Blog(req.body);
+    blog.save() //sorting based on createdAt in descending order
+        .then((result) => {
+            res.redirect('/blogs')
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+
 
 // app.get('/about-us', (req, res) => {
 //     //res.send('<p>about page');
